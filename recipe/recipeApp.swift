@@ -11,7 +11,8 @@ import SwiftUI
 struct recipeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FoodRecipes()
+                .accentColor(Color("AccentColor"))
         }
     }
 }
