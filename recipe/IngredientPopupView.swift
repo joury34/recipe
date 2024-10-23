@@ -67,8 +67,8 @@ struct IngredientPopupView: View {
             ZStack{
                 Rectangle()
                     .fill(Color.gray.opacity(0.2))
-                    .frame(width: 300, height: 30)
-                    .cornerRadius(10)
+                    .frame(width: 250, height: 30)
+                    .cornerRadius(5)
                 
                 HStack {
                     // Minus button
@@ -81,12 +81,15 @@ struct IngredientPopupView: View {
                             .font(.system(size: 20))
                             .foregroundColor(.accentColor)
                     }
+                
                     
                     // Display the quantity in the center
+                    
                     Text("\(quantity)")
                         .frame(width: 40) // Adjust the width as needed to center properly
                         .font(.system(size: 18))
                         .multilineTextAlignment(.center)
+                    
                     
                     // Plus button
                     Button(action: {
@@ -103,11 +106,11 @@ struct IngredientPopupView: View {
                     
                     // Selected Measurement Display
                     Text(measurement == "Spoon" ? "🥄 Spoon" : "🥛 Cup")
-                        .frame(width:80, height: 20)
+                        .frame(width:100, height: 10)
                         .padding(10)
                         .background(Color.accentColor)
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(5)
                     
                 }
             }
@@ -120,8 +123,12 @@ struct IngredientPopupView: View {
                     showPopup = false // Dismiss the popup
                 }) {
                     Text("Cancel")
-                        .foregroundColor(.red)
-                        .padding()
+                        .foregroundColor(.accentColor)
+                        .frame(width: 120, height: 30)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(5)
+                        
+                        
                 }
                 Spacer()
                 Button(action: {
@@ -129,17 +136,25 @@ struct IngredientPopupView: View {
                     showPopup = false
                 }) {
                     Text("Add")
-                        .foregroundColor(.blue)
-                        .padding()
+                        .foregroundColor(.white)
+                        .frame(width: 120, height: 30)
+                        .background(Color.accentColor)
+                        .cornerRadius(5)
+                       
+                        
                 }
             }
-            .padding(.top, 10)
+           
         }
         .padding()
-        .frame(width: 400, height: 500)// Adjust these values as needed
+        .frame(width: 320, height: 400)// Adjust these values as needed
         .background(Color.white)
         .cornerRadius(12)
         .shadow(radius: 10)
+        
+
+
+
     }
 }
 
