@@ -13,7 +13,8 @@ struct IngredientPopupView: View {
     @Binding var quantity: Int // Quantity input
     
     var addIngredientAction: () -> Void // Closure to handle the "Add" action
-
+    //@ObservedObject var viewModel: IngredientViewModel
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             // Ingredient Name Section
@@ -89,7 +90,7 @@ struct IngredientPopupView: View {
                         .frame(width: 40) // Adjust the width as needed to center properly
                         .font(.system(size: 18))
                         .multilineTextAlignment(.center)
-                    
+                   
                     
                     // Plus button
                     Button(action: {
@@ -118,7 +119,7 @@ struct IngredientPopupView: View {
             .padding(.bottom, 10)
 
             // Action Buttons (Cancel and Add)
-            HStack {
+            HStack(spacing:20) {
                 Button(action: {
                     showPopup = false // Dismiss the popup
                 }) {
@@ -130,7 +131,6 @@ struct IngredientPopupView: View {
                         
                         
                 }
-                Spacer()
                 Button(action: {
                     addIngredientAction() // Add the ingredient and dismiss the popup
                     showPopup = false

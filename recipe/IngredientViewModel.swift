@@ -5,16 +5,17 @@
 //  Created by Joury on 20/04/1446 AH.
 //
 
-//import SwiftUI
+/*import SwiftUI
 
-/*class IngredientViewModel: ObservableObject {
+class IngredientViewModel: ObservableObject {
     @Published var ingredients: [Ingredient] = []
     @Published var showPopup: Bool = false
 
     var newIngredientName: String = ""
     var newMeasurement: String = "Spoon"
     var newServingQuantity: Int = 1
-
+    
+    // Function to add the ingredient
     func addIngredient() {
         let newIngredient = Ingredient(name: newIngredientName, measurement: newMeasurement, quantity: newServingQuantity)
         ingredients.append(newIngredient)
