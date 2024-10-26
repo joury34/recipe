@@ -8,12 +8,9 @@ struct AddRecipe: View {
     @State private var title = ""
     @State private var description = ""
     @State private var showIngredientPopup = false
-    @State private var ingredients: [Ingredient] = []
-
-    // New ingredient fields
-    @State private var newIngredientName = ""
-    @State private var newMeasurement = "Spoon"
-    @State private var newServingQuantity = 1
+   
+    @StateObject private var viewModel = IngredientViewModel()
+   
 
     var body: some View {
         ZStack {
@@ -130,7 +127,7 @@ struct AddRecipe: View {
                             
     // View to display the ingredient information
     VStack(alignment: .center, spacing: 10) {
-    ForEach(ingredients) { ingredient in
+        ForEach(viewModel.ingredients) { ingredient in
         HStack {
         Spacer() // Push everything to the center
         RoundedRectangle(cornerRadius: 8)
@@ -153,7 +150,7 @@ struct AddRecipe: View {
              Spacer() // Push the measurement to the right
                 
           // Display the measurement
-            Text(ingredient.measurement == "Spoon" ? "🥄 Spoon" : "🥛 Cup")
+            Text(ingredient.measurement.rawValue)
             .frame(width: 100, height: 30)
             .background(Color.accentColor.opacity(0.70))
             .font(.subheadline)
@@ -186,7 +183,7 @@ struct AddRecipe: View {
                     }
                 )
             }
-            .zIndex(0)
+           
 
             // Full-screen popup overlay
             if showIngredientPopup {
@@ -194,17 +191,24 @@ struct AddRecipe: View {
                     Color.black.opacity(0.9)
                         .ignoresSafeArea()
                         .onTapGesture {
-                            showIngredientPopup = false
+                           showIngredientPopup = false
+                     
                         }
-
+                       
                     IngredientPopupView(
                         showPopup: $showIngredientPopup,
-                        ingredientName: $newIngredientName,
-                        measurement: $newMeasurement,
-                        quantity: $newServingQuantity,
-                        addIngredientAction: addIngredient
+                        ingredientName: $viewModel.newIngredientName,
+                        quantity: $viewModel.servingSize,
+                        addIngredientAction: {
+                            viewModel.addIngredient()
+                        },
+                        viewModel: viewModel
                     )
+                    //.zIndex(20)
+                    
                 }
+                //.transition(.scale)
+                //.animation(.easeInOut, value: showIngredientPopup)
             }
         }
         .task(id: selectedPhoto) {
@@ -216,23 +220,9 @@ struct AddRecipe: View {
         }
     }
 
-    // Function to add the ingredient
-    private func addIngredient() {
-        let newIngredient = Ingredient(name: newIngredientName, measurement: newMeasurement, quantity: newServingQuantity)
-        ingredients.append(newIngredient)
-        newIngredientName = ""
-        newMeasurement = "Spoon"
-        newServingQuantity = 1
-    }
 }
 
-// Ingredient model to store ingredient details
-struct Ingredient: Identifiable {
-    let id = UUID()
-    var name: String
-    var measurement: String
-    var quantity: Int
-}
+
 
 #Preview {
     AddRecipe()
