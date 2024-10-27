@@ -6,7 +6,7 @@ struct IngredientPopupView: View {
     @Binding var quantity: Int // Quantity input
     var addIngredientAction: () -> Void // Action for "Add" button
     
-    @ObservedObject var viewModel: IngredientViewModel // Centralized measurement
+    @ObservedObject var viewModel: RecipeIngredientViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
@@ -16,6 +16,7 @@ struct IngredientPopupView: View {
                 .fontWeight(.bold)
             
             TextField("Ingredient Name", text: $ingredientName)
+                .frame(width:270,height:10)
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
@@ -124,7 +125,7 @@ struct IngredientPopupView: View {
         }
         .padding()
         .frame(width: 320, height: 400)
-        .background(Color.white)
+        .background(Color("popup_back"))
         .cornerRadius(12)
         .shadow(radius: 10)
     }
