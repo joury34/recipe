@@ -19,7 +19,8 @@ struct AddRecipe: View {
             NavigationView {
                 ScrollView {
                     VStack {
-                        // PhotosPicker for uploading/changing photo
+                        
+                    //MARK:  PhotosPicker for uploading/changing photo
                         PhotosPicker(
                             selection: $selectedPhoto,
                             matching: .images,
@@ -33,11 +34,11 @@ struct AddRecipe: View {
                                     .padding()
                                     .overlay(
                                         Rectangle()
-                                            .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [7, 5]))
-                                            .foregroundColor(Color("AccentColor"))
-                                            .padding()
+                                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [7, 5]))
+                                    .foregroundColor(Color("AccentColor"))
+                                    .padding()
                                     )
-                                
+                                //MARK: if condtion to check if the user selcet a photo or not
                                 if let selectedPhotoData,
                                    let uiImage = UIImage(data: selectedPhotoData) {
                                     Image(uiImage: uiImage)
@@ -57,6 +58,7 @@ struct AddRecipe: View {
                             }
                         }
                         .padding(.top)
+                        //MARK: converting the photo into data to dispaly it to the user in the view
                         .task(id: selectedPhoto) {
                             if let selectedPhoto {
                                 Task {
@@ -70,7 +72,7 @@ struct AddRecipe: View {
                             }
                         }
 
-                        // Title text field
+                        //MARK:  Title text field
                         VStack(alignment: .leading, spacing: 10) {
                             Text("Title")
                                 .font(.system(size: 24))
@@ -84,8 +86,9 @@ struct AddRecipe: View {
                                 .textFieldStyle(PlainTextFieldStyle())
                         }
                         .padding()
+                        
 
-                        // Description TextEditor
+                        //MARK: Description TextEditor
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Description")
                                 .font(.system(size: 24))
@@ -111,8 +114,9 @@ struct AddRecipe: View {
                             }
                         }
                         .padding()
+                        
 
-                        // Add Ingredient Button and Ingredient List Display
+                        // MARK: Add Ingredient Button and Ingredient List Display
                         VStack(alignment: .leading) {
                             HStack {
                                 Text("Add Ingredient")
@@ -128,30 +132,32 @@ struct AddRecipe: View {
                                 }
                             }
                             .padding(.horizontal, 30)
-
-                            VStack(alignment: .center, spacing: 10) {
-                                ForEach(viewModel.ingredients) { ingredient in
-                                    HStack {
-                                        Spacer()
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.gray.opacity(0.2))
-                                            .frame(width: 380, height: 50)
-                                            .overlay(
-                                                HStack(spacing: 10) {
-                                                    Text("\(ingredient.quantity)")
-                                                        .font(.subheadline)
-                                                        .foregroundColor(.accentColor)
-                                                    Text(ingredient.Ingredientname)
-                                                        .font(.headline)
-                                                        .foregroundColor(.accentColor)
-                                                        .lineLimit(1)
-                                                        .padding(.leading, 5)
-                                                    Spacer()
-                                                    Text(ingredient.measurement.rawValue)
-                                                        .padding(5)
-                                                        .background(Color.accentColor.opacity(0.7))
-                                                        .foregroundColor(.white)
-                                                        .cornerRadius(8)
+                            
+                            
+                           //MARK: view the ingredient
+                        VStack(alignment: .center, spacing: 10) {
+                        ForEach(viewModel.ingredients) { ingredient in
+                                HStack {
+                                    Spacer()
+                                    RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.gray.opacity(0.2))
+                                    .frame(width: 380, height: 50)
+                                    .overlay(
+                                    HStack(spacing: 10) {
+                                    Text("\(ingredient.quantity)")
+                                    .font(.subheadline)
+                                    .foregroundColor(.accentColor)
+                                    Text(ingredient.Ingredientname)
+                                    .font(.headline)
+                                    .foregroundColor(.accentColor)
+                                    .lineLimit(1)
+                                    .padding(.leading, 5)
+                                    Spacer()
+                                    Text(ingredient.measurement.rawValue)
+                                    .padding(5)
+                                    .background(Color.accentColor.opacity(0.7))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
                                                 }
                                                 .padding(.horizontal, 10)
                                             )
@@ -162,8 +168,10 @@ struct AddRecipe: View {
                         }
                     }
                     .padding()
+                    ///to dismiss the keyboard
                     .scrollDismissesKeyboard(.immediately)
                 }
+                
                 .navigationTitle(recipeToEdit != nil ? "New Recipe" : "New Recipe")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbarBackground(Color.gray.opacity(0.1), for: .navigationBar)
@@ -194,7 +202,7 @@ struct AddRecipe: View {
                 }
             }
 
-            // Full-screen popup overlay
+            //MARK: Full-screen popup overlay
             if showIngredientPopup {
                 ZStack {
                     Color.black.opacity(0.9)

@@ -61,6 +61,8 @@ struct FoodRecipes: View {
                                                 .frame(width: 420, height: 250)
                                                 .clipped()
                                                 .padding()
+                                       
+                                            
                                         }
 
                                         // Overlay for title, description, and "See All" button

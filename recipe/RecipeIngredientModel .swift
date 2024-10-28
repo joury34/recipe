@@ -7,24 +7,25 @@
 
 import Foundation
 
- //Ingredient model to store ingredient details
- 
+
+// Swift will synthesize Equatable if all properties conform to Equatable
+
+//MARK: Ingredient model to store ingredient details
 struct Ingredient: Identifiable, Equatable {
     let id = UUID()
     var Ingredientname: String
     var measurement: MeasurementType
     var quantity: Int
     
-    // Swift will synthesize Equatable if all properties conform to Equatable
+    
 }
-
-
 enum MeasurementType: String, CaseIterable {
     case spoon = "🥄 Spoon"
     case cup = "🥛 Cup"
 }
 
-//Recipe model to store ingredient details
+
+//MARK: Recipe model to store ingredient details
 struct Recipe: Identifiable, Equatable {
     let id = UUID()
     var Recipeimage: Data?
