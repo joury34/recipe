@@ -6,8 +6,13 @@ struct AddRecipe: View {
     @State private var selectedPhoto: PhotosPickerItem? = nil
     @State private var selectedPhotoData: Data? = nil
     @State private var showIngredientPopup = false
-    @ObservedObject var viewModel: RecipeIngredientViewModel  // Pass viewModel from FoodRecipes
-    
+    @ObservedObject var viewModel: RecipeIngredientViewModel
+    var recipeToEdit: Recipe? // Optional recipe for edit mode
+
+    init(viewModel: RecipeIngredientViewModel, recipeToEdit: Recipe? = nil) {
+        self.viewModel = viewModel
+        self.recipeToEdit = recipeToEdit
+    }
 
     var body: some View {
         ZStack {
@@ -67,62 +72,51 @@ struct AddRecipe: View {
 
                         // Title text field
                         VStack(alignment: .leading, spacing: 10) {
-                        Text("Title")
-                        .font(.system(size: 24))
-                        .fontWeight(.bold)
-                        ZStack(alignment: .leading) {
-                            if viewModel.newRecipeTitle.isEmpty {
-                        Text("Title")
-                                                               
-                        .padding(.leading, 8)
+                            Text("Title")
+                                .font(.system(size: 24))
+                                .fontWeight(.bold)
+                            TextField("Title", text: $viewModel.newRecipeTitle)
+                                .padding()
+                                .foregroundColor(.black)
+                                .background(Color.gray.opacity(0.2))
+                                .frame(width: 380, height: 44)
+                                .cornerRadius(8)
+                                .textFieldStyle(PlainTextFieldStyle())
                         }
-                            TextField("", text: $viewModel.newRecipeTitle)
                         .padding()
-                        .foregroundColor(.black)
-                        .background(Color.gray.opacity(0.2))
-                        .frame(width: 380, height: 44)
-                        .cornerRadius(8)
-                        .textFieldStyle(PlainTextFieldStyle())
-                                                   }
-                                               }
-                                               .padding()
 
-                        // Description text field
-                        VStack(alignment: .leading, spacing: 10) {
-                        Text("Description")
-                        .font(.system(size: 24))
-                        .fontWeight(.bold)
-                                                   
-                        ZStack(alignment: .topLeading) {
-                            if viewModel.newRecipeDescription.isEmpty {
-                        Text("Description")
-                                                               
-                        .padding(.leading, 12)
-                        .padding(.top, 8)
+                        // Description TextEditor
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Description")
+                                .font(.system(size: 24))
+                                .bold()
+                            ZStack(alignment: .topLeading) {
+                                TextEditor(text: $viewModel.newRecipeDescription)
+                                    .padding(.all, 10)
+                                    .scrollContentBackground(.hidden)
+                                    .background(Color.gray.opacity(0.2))
+                                    .frame(width: 380, height: 130)
+                                    .cornerRadius(10)
+                                    .font(.system(size: 16))
+                                    .onAppear {
+                                        UITextView.appearance().backgroundColor = .clear
+                                    }
+                                if viewModel.newRecipeDescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                    Text("Description")
+                                        .foregroundColor(Color.gray)
+                                        .font(.system(size: 15))
+                                        .padding(.horizontal, 14)
+                                        .padding(.top, 16)
                                 }
-
-                        TextEditor(text: $viewModel.newRecipeDescription)
-                        .frame(width: 380, height: 150)
-                        .scrollContentBackground(.hidden)
-                        .background(Color.gray.opacity(0.2))
-                        .foregroundColor(.black)
-                                                   }
-                         .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.gray, lineWidth: 1)
-                                                   )
-                                                   .cornerRadius(8)
-                                               }
-                                               .padding()
-                                               
-
-
-
+                            }
+                        }
+                        .padding()
 
                         // Add Ingredient Button and Ingredient List Display
                         VStack(alignment: .leading) {
                             HStack {
                                 Text("Add Ingredient")
+                                    .padding()
                                     .font(.headline)
                                     .fontWeight(.bold)
                                 Spacer()
@@ -135,7 +129,6 @@ struct AddRecipe: View {
                             }
                             .padding(.horizontal, 30)
 
-                            // Display Ingredients List
                             VStack(alignment: .center, spacing: 10) {
                                 ForEach(viewModel.ingredients) { ingredient in
                                     HStack {
@@ -148,15 +141,12 @@ struct AddRecipe: View {
                                                     Text("\(ingredient.quantity)")
                                                         .font(.subheadline)
                                                         .foregroundColor(.accentColor)
-                                                    
-                                                    
                                                     Text(ingredient.Ingredientname)
                                                         .font(.headline)
                                                         .foregroundColor(.accentColor)
                                                         .lineLimit(1)
                                                         .padding(.leading, 5)
                                                     Spacer()
-                                                    
                                                     Text(ingredient.measurement.rawValue)
                                                         .padding(5)
                                                         .background(Color.accentColor.opacity(0.7))
@@ -174,20 +164,29 @@ struct AddRecipe: View {
                     .padding()
                     .scrollDismissesKeyboard(.immediately)
                 }
-                .navigationTitle("New Recipe")
+                .navigationTitle(recipeToEdit != nil ? "New Recipe" : "New Recipe")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbarBackground(Color.gray.opacity(0.1), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
-                        Button("Back") {
+                        Button(action: {
                             presentationMode.wrappedValue.dismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                Text("Back")
+                            }
                         }
                         .foregroundColor(.accentColor)
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Save") {
-                            viewModel.addRecipe()  // Save recipe data to the viewModel
+                            if recipeToEdit != nil {
+                                viewModel.updateRecipe()
+                            } else {
+                                viewModel.addRecipe()
+                            }
                             presentationMode.wrappedValue.dismiss()
                         }
                         .foregroundColor(.accentColor)
@@ -212,6 +211,15 @@ struct AddRecipe: View {
                         },
                         viewModel: viewModel
                     )
+                }
+            }
+        }
+        .onAppear {
+            if let recipe = recipeToEdit {
+                viewModel.editRecipe(recipe)
+                // Set selectedPhotoData to display the existing image during editing
+                if let existingImageData = viewModel.newRecipeImage {
+                    selectedPhotoData = existingImageData
                 }
             }
         }

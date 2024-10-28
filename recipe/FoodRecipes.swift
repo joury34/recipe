@@ -6,6 +6,7 @@ struct FoodRecipes: View {
     @State private var selectedRecipe: Recipe? = nil
     @StateObject private var viewModel = RecipeIngredientViewModel()
     @State private var searchText = ""
+    @State private var isDeleteAlertPresented = false // New state variable for delete alert
 
     var body: some View {
         NavigationView {
@@ -30,107 +31,182 @@ struct FoodRecipes: View {
                     // Display recipes list
                     VStack(alignment: .leading, spacing: 20) {
                         ForEach(viewModel.recipes) { recipe in
-                            ZStack(alignment: .bottomLeading) {
-                                if let imageData = recipe.Recipeimage, let uiImage = UIImage(data: imageData) {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 400, height: 300)
-                                        .cornerRadius(10)
-                                        .clipped()
-                                }
-
-                                // Overlay for title, description, and "See All"
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(recipe.RecipeTitle)
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
+                            VStack(alignment: .leading) {
+                                if showIngredients && selectedRecipe == recipe {
                                     
-                                    HStack {
+                                    // Display description above the smaller image
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        if let imageData = recipe.Recipeimage, let uiImage = UIImage(data: imageData) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 420, height: 200) // Adjusted image size
+                                                .clipped()
+                                        }
+                                        
                                         Text(recipe.RecipeDescrption)
                                             .font(.body)
-                                            .foregroundColor(.white)
-                                            .lineLimit(2)
-                                        
-                                        Spacer()
-                                        
-                                        Button("See All") {
-                                            withAnimation {
-                                                showIngredients.toggle()
-                                                selectedRecipe = recipe
-                                            }
-                                        }
-                                        .font(.footnote)
-                                        .foregroundColor(.orange)
+                                            .foregroundColor(.gray)
+                                            .padding(.horizontal)
+                                            .padding(.bottom, 8)
                                     }
                                 }
-                                .padding()
-                                .background(
-                                    LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.6), Color.clear]),
-                                                   startPoint: .top,
-                                                   endPoint: .bottom)
-                                )
-                                .cornerRadius(10)
-                            }
-                            .padding(.horizontal)
+                                else {
+                                    // Full-size image when not in ingredient view
+                                    ZStack(alignment: .bottomLeading) {
+                                        if let imageData = recipe.Recipeimage, let uiImage = UIImage(data: imageData) {
+                                            Image(uiImage: uiImage)
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 420, height: 250)
+                                                .clipped()
+                                                .padding()
+                                        }
 
+                                        // Overlay for title, description, and "See All" button
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(recipe.RecipeTitle)
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal)
+
+                                            HStack {
+                                                Text(recipe.RecipeDescrption)
+                                                    .font(.body)
+                                                    .foregroundColor(.white)
+                                                    .lineLimit(2)
+                                                    .padding(.horizontal)
+                                                Spacer()
+                                                
+                                                Button("See All") {
+                                                    withAnimation {
+                                                        showIngredients = true
+                                                        selectedRecipe = recipe
+                                                    }
+                                                }
+                                                .font(.footnote)
+                                                .foregroundColor(.accentColor)
+                                                .padding(.trailing, 15)
+                                            }//end of Hstack
+                                        }
+                                         .padding()
+                                        .cornerRadius(10)
+                                    }
+                                }
+                            }
+                            
                             if showIngredients && selectedRecipe == recipe {
-                                VStack(alignment: .leading, spacing: 8) {
+                                // Container to ensure VStack aligns to the left
+                                HStack(alignment: .top) {
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        Text("Ingredient")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                    .padding(.leading)
+                                    Spacer()
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                                // Display Ingredients List
+                                VStack(alignment: .center, spacing: 10) {
                                     ForEach(recipe.ingredients) { ingredient in
                                         HStack {
-                                            Text("\(ingredient.quantity)")
-                                                .font(.subheadline)
-                                                .foregroundColor(.accentColor)
-                                            
-                                            Text(ingredient.Ingredientname)
-                                                .font(.headline)
-                                                .foregroundColor(.accentColor)
-                                                .lineLimit(1)
-                                            
                                             Spacer()
-                                            
-                                            Text(ingredient.measurement.rawValue)
-                                                .padding(5)
-                                                .background(Color.accentColor.opacity(0.8))
-                                                .foregroundColor(.white)
-                                                .cornerRadius(8)
-                                                .font(.subheadline)
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .fill(Color.gray.opacity(0.2))
+                                                .frame(width: 380, height: 50)
+                                                .overlay(
+                                                    HStack(spacing: 10) {
+                                                        Text("\(ingredient.quantity)")
+                                                            .font(.subheadline)
+                                                            .foregroundColor(.accentColor)
+                                                        
+                                                        Text(ingredient.Ingredientname)
+                                                            .font(.headline)
+                                                            .foregroundColor(.accentColor)
+                                                            .lineLimit(1)
+                                                            .padding(.leading, 5)
+                                                        
+                                                        Spacer()
+                                                        
+                                                        Text(ingredient.measurement.rawValue)
+                                                            .padding(5)
+                                                            .background(Color.accentColor.opacity(0.7))
+                                                            .foregroundColor(.white)
+                                                            .cornerRadius(8)
+                                                    }
+                                                    .padding(.horizontal, 10)
+                                                )
+                                            Spacer()
                                         }
-                                        .padding(.horizontal)
                                     }
 
+                                    // Delete button with confirmation alert
                                     Button(action: {
-                                        deleteRecipe(recipe: recipe)
+                                        isDeleteAlertPresented = true // Show alert when delete button is pressed
                                     }) {
                                         Text("Delete Recipe")
                                             .font(.headline)
                                             .foregroundColor(.red)
                                             .padding()
-                                            .frame(maxWidth: .infinity)
-                                            .background(Color.white)
+                                            .frame(width: 370, height: 50)
+                                            .background(Color.gray.opacity(0.1))
                                             .cornerRadius(10)
-                                            .shadow(radius: 2)
                                     }
+                                    .alert(isPresented: $isDeleteAlertPresented) { // Display confirmation alert
+                                        Alert(
+                                            title: Text("Delete a Recipe"),
+                                            message: Text("Are you sure you want to delete this recipe?"),
+                                            primaryButton: .destructive(Text("Yes")) {
+                                                if let recipe = selectedRecipe {
+                                                    viewModel.deleteRecipe(recipe: recipe)
+                                                    showIngredients = false
+                                                    selectedRecipe = nil
+                                                }
+                                            },
+                                            secondaryButton: .cancel(Text("No"))
+                                        )
+                                    }
+                                    .searchable(text: $searchText)
                                     .padding(.horizontal)
-                                    .padding(.top, 10)
+                                    .padding(.top, 270)
                                 }
                             }
                         }
                     }
-                    .padding()
                 }
             }
-            .navigationTitle("Food Recipes")
+            .navigationTitle(showIngredients && selectedRecipe != nil ? selectedRecipe?.RecipeTitle ?? "Food Recipes" : "Food Recipes")
+            .toolbarBackground(Color.gray.opacity(0.1), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    // Back button to close ingredient view and return to recipe list
+                    if showIngredients {
+                        Button(action: {
+                            withAnimation {
+                                showIngredients = false
+                                selectedRecipe = nil
+                            }
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                Text("Back")
+                            }
+                        }
+                        .foregroundColor(.accentColor)
+                    }
+                }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        if showIngredients {
-                            if let recipe = selectedRecipe {
-                                editRecipe(recipe: recipe)
-                            }
+                        if showIngredients, let recipe = selectedRecipe {
+                            editRecipe(recipe: recipe)
                         } else {
                             isAddRecipePresented = true
+                            selectedRecipe = nil
                         }
                     }) {
                         if showIngredients {
@@ -142,18 +218,10 @@ struct FoodRecipes: View {
                         }
                     }
                     .fullScreenCover(isPresented: $isAddRecipePresented) {
-                        AddRecipe(viewModel: viewModel)
+                        AddRecipe(viewModel: viewModel, recipeToEdit: selectedRecipe)
                     }
                 }
             }
-        }
-    }
-
-    private func deleteRecipe(recipe: Recipe) {
-        if let index = viewModel.recipes.firstIndex(where: { $0.id == recipe.id }) {
-            viewModel.recipes.remove(at: index)
-            showIngredients = false
-            selectedRecipe = nil
         }
     }
 

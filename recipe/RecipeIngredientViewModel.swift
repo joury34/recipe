@@ -10,20 +10,27 @@ import SwiftUI
 class RecipeIngredientViewModel: ObservableObject {
      
     // Recipe properties
-        @Published var recipes: [Recipe] = []  // Updated to `recipes` to match usage in views
-        var newRecipeImage: Data? = nil
-        var newRecipeTitle: String = ""
-        var newRecipeDescription: String = ""  // Updated `newRecipeDes` to `newRecipeDescription` for clarity
+    @Published var recipes: [Recipe] = []  // Updated to `recipes` to match usage in views
+    @Published  var newRecipeImage: Data? = nil
+    @Published  var newRecipeTitle: String = ""
+    @Published  var newRecipeDescription: String = ""  // Updated `newRecipeDes` to `newRecipeDescription` for clarity
         
         // Ingredient properties
         @Published var ingredients: [Ingredient] = []  // This stores a list of ingredients
         @Published var showPopup: Bool = false          // Controls popup visibility
         @Published var measurement: MeasurementType = .spoon
         @Published var servingSize: Int = 1
-        
+       
         // Temporary data for new ingredient
-        var newIngredientName: String = ""
-        
+    @Published var newIngredientName: String = ""
+    
+    // Currently editing recipe (if any)
+    @Published var editingRecipe: Recipe?
+    
+    
+
+    
+    
         // Function to add the ingredient
         func addIngredient() {
             let newIngredient = Ingredient(
@@ -50,18 +57,46 @@ class RecipeIngredientViewModel: ObservableObject {
             ingredients.removeAll()
         }
         
-     //function adding both recipe and ingredient
-    // func addRecipeAndIngredient() {
-     //    addIngredient()
-      //   addRecipe()
-    // }
+    // Function to initialize editing for an existing recipe
+    func editRecipe(_ recipe: Recipe) {
+            editingRecipe = recipe
+            newRecipeImage = recipe.Recipeimage
+            newRecipeTitle = recipe.RecipeTitle
+            newRecipeDescription = recipe.RecipeDescrption
+            ingredients = recipe.ingredients
+        }
+        
      
-     
+    // Add the updateRecipe function to update an existing recipe
+    func updateRecipe() {
+            guard let editingRecipe = editingRecipe else { return }
+            
+            if let index = recipes.firstIndex(where: { $0.id == editingRecipe.id }) {
+                recipes[index].Recipeimage = newRecipeImage
+                recipes[index].RecipeTitle = newRecipeTitle
+                recipes[index].RecipeDescrption = newRecipeDescription
+                recipes[index].ingredients = ingredients
+            }
+            resetIngredientForm()
+            resetRecipeForm()
+            self.editingRecipe = nil
+        }
+    
+    
+    
+    func deleteRecipe(recipe: Recipe) {
+            if let index = recipes.firstIndex(where: { $0.id == recipe.id }) {
+                recipes.remove(at: index)
+                ingredients.removeAll() // Clear ingredients after deleting a recipe
+            }
+        }
      
      // function takes a MeasurementType as an argument and sets measurement to the new value.
      func updateMeasurement(to newMeasurement: MeasurementType) {
              measurement = newMeasurement
          }
+    
+    
      
     //function that increment the serving
      func incrementServing() {
