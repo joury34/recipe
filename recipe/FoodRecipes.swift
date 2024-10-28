@@ -12,7 +12,7 @@ struct FoodRecipes: View {
         NavigationView {
             ScrollView {
                 if viewModel.recipes.isEmpty {
-                    // Empty state view
+                    //MARK: Empty state view
                     VStack {
                         Image("recipe")
                             .resizable()
@@ -28,7 +28,7 @@ struct FoodRecipes: View {
                             .foregroundColor(.gray)
                     }
                 } else {
-                    // Display recipes list
+                    // MARK: Display recipes list
                     VStack(alignment: .leading, spacing: 20) {
                         ForEach(viewModel.recipes) { recipe in
                             VStack(alignment: .leading) {
@@ -51,21 +51,21 @@ struct FoodRecipes: View {
                                             .padding(.bottom, 8)
                                     }
                                 }
-                                else {
-                                    // Full-size image when not in ingredient view
-                                    ZStack(alignment: .bottomLeading) {
-                                        if let imageData = recipe.Recipeimage, let uiImage = UIImage(data: imageData) {
-                                            Image(uiImage: uiImage)
-                                                .resizable()
-                                                .scaledToFill()
-                                                .frame(width: 420, height: 250)
-                                                .clipped()
-                                                .padding()
+                            else {
+                            // MARK: Full-size image when not in ingredient view
+                            ZStack(alignment: .bottomLeading) {
+                                if let imageData = recipe.Recipeimage, let uiImage = UIImage(data: imageData) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 420, height: 250)
+                                        .clipped()
+                                        .padding()
                                        
                                             
                                         }
 
-                                        // Overlay for title, description, and "See All" button
+                                        //MARK:  Overlay for title, description, and "See All" button
                                         VStack(alignment: .leading, spacing: 4) {
                                             Text(recipe.RecipeTitle)
                                                 .font(.title2)
@@ -111,7 +111,7 @@ struct FoodRecipes: View {
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
 
-                                // Display Ingredients List
+                                //MARK:  Display Ingredients List
                                 VStack(alignment: .center, spacing: 10) {
                                     ForEach(recipe.ingredients) { ingredient in
                                         HStack {
@@ -145,41 +145,41 @@ struct FoodRecipes: View {
                                         }
                                     }
 
-                                    // Delete button with confirmation alert
-                                    Button(action: {
-                                        isDeleteAlertPresented = true // Show alert when delete button is pressed
-                                    }) {
-                                        Text("Delete Recipe")
-                                            .font(.headline)
-                                            .foregroundColor(.red)
-                                            .padding()
-                                            .frame(width: 370, height: 50)
-                                            .background(Color.gray.opacity(0.1))
-                                            .cornerRadius(10)
-                                    }
-                                    .alert(isPresented: $isDeleteAlertPresented) { // Display confirmation alert
-                                        Alert(
-                                            title: Text("Delete a Recipe"),
-                                            message: Text("Are you sure you want to delete this recipe?"),
-                                            primaryButton: .destructive(Text("Yes")) {
-                                                if let recipe = selectedRecipe {
-                                                    viewModel.deleteRecipe(recipe: recipe)
-                                                    showIngredients = false
-                                                    selectedRecipe = nil
-                                                }
-                                            },
-                                            secondaryButton: .cancel(Text("No"))
-                                        )
-                                    }
-                                    .searchable(text: $searchText)
-                                    .padding(.horizontal)
-                                    .padding(.top, 270)
+                            // MARK: Delete button with confirmation alert
+                                Button(action: {
+                                    isDeleteAlertPresented = true // Show alert when delete button is pressed
+                                }) {
+                                    Text("Delete Recipe")
+                                        .font(.headline)
+                                        .foregroundColor(.red)
+                                        .padding()
+                                        .frame(width: 370, height: 50)
+                                        .background(Color.delete)
+                                        .cornerRadius(10)
                                 }
+                                .alert(isPresented: $isDeleteAlertPresented) { // Display confirmation alert
+                                    Alert(
+                                        title: Text("Delete a Recipe"),
+                                        message: Text("Are you sure you want to delete this recipe?"),
+                                        primaryButton: .destructive(Text("Yes")) {
+                                            if let recipe = selectedRecipe {
+                                                viewModel.deleteRecipe(recipe: recipe)
+                                                showIngredients = false
+                                                selectedRecipe = nil
+                                            }
+                                        },
+                                        secondaryButton: .cancel(Text("No"))
+                                    )
+                                }
+                                .searchable(text: $searchText)
+                                .padding(.horizontal)
+                                .padding(.top, 270)
                             }
                         }
                     }
                 }
             }
+        }
             .navigationTitle(showIngredients && selectedRecipe != nil ? selectedRecipe?.RecipeTitle ?? "Food Recipes" : "Food Recipes")
             .toolbarBackground(Color.gray.opacity(0.1), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)

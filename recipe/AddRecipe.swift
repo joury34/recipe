@@ -51,7 +51,7 @@ struct AddRecipe: View {
                                         Image(systemName: "photo.badge.plus")
                                             .font(.system(size: 60))
                                         Text("Upload Photo")
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.uploadphoto)
                                             .font(.headline)
                                     }
                                 }
@@ -79,7 +79,7 @@ struct AddRecipe: View {
                                 .fontWeight(.bold)
                             TextField("Title", text: $viewModel.newRecipeTitle)
                                 .padding()
-                                .foregroundColor(.black)
+                              //  .foregroundColor(.black)
                                 .background(Color.gray.opacity(0.2))
                                 .frame(width: 380, height: 44)
                                 .cornerRadius(8)
@@ -172,10 +172,14 @@ struct AddRecipe: View {
                     .scrollDismissesKeyboard(.immediately)
                 }
                 
+                
                 .navigationTitle(recipeToEdit != nil ? "New Recipe" : "New Recipe")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbarBackground(Color.gray.opacity(0.1), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
+                
+                
+                //MARK: back buttton This will dismiss the view 
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
@@ -188,6 +192,10 @@ struct AddRecipe: View {
                         }
                         .foregroundColor(.accentColor)
                     }
+                    
+                    
+                    //MARK: This will ensure that the "Save" button is only enabled when all inputs are filled
+                    
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Save") {
                             if recipeToEdit != nil {
@@ -198,8 +206,13 @@ struct AddRecipe: View {
                             presentationMode.wrappedValue.dismiss()
                         }
                         .foregroundColor(.accentColor)
+                        .disabled(viewModel.newRecipeTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                                  viewModel.newRecipeDescription.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+                                  viewModel.ingredients.isEmpty ||
+                                  selectedPhotoData == nil) // Disable if photo is required
                     }
-                }
+                    
+                } ///end of the toolbar
             }
 
             //MARK: Full-screen popup overlay
