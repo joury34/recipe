@@ -10,7 +10,7 @@ struct IngredientPopupView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            // Ingredient Name Section
+            /// Ingredient Name Section
             Text("Ingredient Name")
                 .font(.system(size: 18))
                 .fontWeight(.bold)
@@ -21,12 +21,13 @@ struct IngredientPopupView: View {
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
             
-            // Measurement Section
+            
+            /// Measurement Section
             Text("Measurement")
                 .font(.system(size: 18))
                 .fontWeight(.bold)
 
-            // Measurement Buttons
+            /// Measurement Buttons
             HStack(spacing: 20) {
                 Button(action: {
                     viewModel.updateMeasurement(to: .spoon)
@@ -38,8 +39,7 @@ struct IngredientPopupView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-               // .buttonStyle(PlainButtonStyle())
-              //  .contentShape(Rectangle())
+             
                
                 Button(action: {
                     viewModel.updateMeasurement(to: .cup)
@@ -54,8 +54,10 @@ struct IngredientPopupView: View {
                 .buttonStyle(PlainButtonStyle())
                 .contentShape(Rectangle())
             }
+            
+            
 
-            // Serving and Measurement Section combined
+            /// Serving and Measurement Section combined
             VStack {
                 Text("Serving")
                     .font(.system(size: 18))
@@ -99,8 +101,9 @@ struct IngredientPopupView: View {
                 }
             }
             .padding(.bottom, 10)
+            
 
-            // Action Buttons
+            /// Action Buttons
             HStack(spacing: 20) {
                 Button(action: {
                     showPopup = false
@@ -123,6 +126,8 @@ struct IngredientPopupView: View {
                 }
             }
         }
+        
+        ///POP-UP FRAME 
         .padding()
         .frame(width: 320, height: 400)
         .background(Color("popup_back"))
