@@ -36,16 +36,24 @@ Build and run the app on your preferred simulator or iOS device.
 📖 Usage
 
 🔍 Searching for Recipes: Use the search bar at the top of the screen to filter recipes by title.
+
 ➕ Adding a Recipe: Navigate to the "Add Recipe" screen, fill in the title, description, and ingredients, and save your recipe.
+
 ✏️ Editing a Recipe: Select a recipe to view its details, then tap "Edit" to make changes.
+
 🗑️ Deleting a Recipe: Easily remove a recipe from your collection by selecting it and choosing the delete option.
+
 📋 Managing Ingredients: Add custom ingredients with specific measurements for each recipe.
+
 
 🚧 Next Challenges
 
 Implementing advanced search filters (e.g., filter by category, ingredient).
+
 Adding a "Favorites" feature to save and access favorite recipes easily.
+
 Enhancing UI with animations and additional SwiftUI features.
+
 Integrating cloud storage to sync recipes across devices.
 
 🤝 Contributing
@@ -57,5 +65,6 @@ Contributions are welcome! Please fork the repository and create a pull request 
 If you have any questions or suggestions, feel free to reach out!
 
 Email: jouryalsulimani@gmail.com
+
 LinkedIn: https://www.linkedin.com/in/joury-alsulimani-242269273?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
 
