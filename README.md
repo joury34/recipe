@@ -14,6 +14,15 @@ Welcome to the Recipe App! This app is designed to make cooking and meal plannin
 
 
 
+
+
+
+
+
+
+
+
+
 📲 Features
 
 
@@ -36,16 +45,28 @@ Edit and Save Recipes: Make adjustments to existing recipes, including title, de
 
 
 
+
+
+
+
+
+
 🛠️ Tech Stack
 
 
 SwiftUI: The UI is built with SwiftUI to provide a modern, responsive, and intuitive design.
 
 
+
 MVVM Architecture: Using the Model-View-ViewModel (MVVM) pattern for a clean and maintainable codebase.
 
 
+
 Combine: Ensures that UI updates are reactive and seamless, enhancing user experience with real-time search and filtering.
+
+
+
+
 
 
 
@@ -62,7 +83,11 @@ Clone the repository:
 
 git clone https://github.com/joury34/recipe
 
+
 Build and run the app on your preferred simulator or iOS device.
+
+
+
 
 
 📖 Usage
@@ -70,16 +95,21 @@ Build and run the app on your preferred simulator or iOS device.
 🔍 Searching for Recipes: Use the search bar at the top of the screen to filter recipes by title.
 
 
+
 ➕ Adding a Recipe: Navigate to the "Add Recipe" screen, fill in the title, description, and ingredients, and save your recipe.
+
 
 
 ✏️ Editing a Recipe: Select a recipe to view its details, then tap "Edit" to make changes.
 
 
+
 🗑️ Deleting a Recipe: Easily remove a recipe from your collection by selecting it and choosing the delete option.
 
 
+
 📋 Managing Ingredients: Add custom ingredients with specific measurements for each recipe.
+
 
 
 
@@ -88,13 +118,17 @@ Build and run the app on your preferred simulator or iOS device.
 Implementing advanced search filters (e.g., filter by category, ingredient).
 
 
+
 Adding a "Favorites" feature to save and access favorite recipes easily.
+
 
 
 Enhancing UI with animations and additional SwiftUI features.
 
 
+
 Integrating cloud storage to sync recipes across devices.
+
 
 
 
