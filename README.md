@@ -84,6 +84,14 @@ Clone the repository:
 
 git clone https://github.com/joury34/recipe
 
+Open in Xcode:
+
+Copy code
+
+cd recipe
+
+open recipe.xcodeproj
+
 
 Build and run the app on your preferred simulator or iOS device.
 
