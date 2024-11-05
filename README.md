@@ -1,3 +1,4 @@
+
 🍲 Recipe App
 
 
@@ -22,7 +23,7 @@ Welcome to the Recipe App! This app is designed to make cooking and meal plannin
 
 
 
-
+---
 📲 Features
 
 
@@ -50,7 +51,7 @@ Edit and Save Recipes: Make adjustments to existing recipes, including title, de
 
 
 
-
+---
 🛠️ Tech Stack
 
 
@@ -70,7 +71,7 @@ Combine: Ensures that UI updates are reactive and seamless, enhancing user exper
 
 
 
-
+---
 🚀 Getting Started
 
 Prerequisites
@@ -89,7 +90,7 @@ Build and run the app on your preferred simulator or iOS device.
 
 
 
-
+---
 📖 Usage
 
 🔍 Searching for Recipes: Use the search bar at the top of the screen to filter recipes by title.
@@ -112,7 +113,7 @@ Build and run the app on your preferred simulator or iOS device.
 
 
 
-
+---
 🚧 Next Challenges
 
 Implementing advanced search filters (e.g., filter by category, ingredient).
@@ -131,12 +132,12 @@ Integrating cloud storage to sync recipes across devices.
 
 
 
-
+---
 🤝 Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request with your changes. Feel free to open issues for any bugs or feature requests.
 
-
+---
 📞 Contacts
 
 If you have any questions or suggestions, feel free to reach out!
