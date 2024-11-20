@@ -27,7 +27,6 @@ Welcome to the Recipe App! This app is designed to make cooking and meal plannin
 📲 Features
 
 
-Recipe Search: Quickly search for recipes by title to find the perfect dish to cook.
 
 
 Ingredient Management: Add ingredients with custom measurements for each recipe, making it easy to gather everything you need.
@@ -101,8 +100,6 @@ Build and run the app on your preferred simulator or iOS device.
 ---
 📖 Usage
 
-🔍 Searching for Recipes: Use the search bar at the top of the screen to filter recipes by title.
-
 
 
 ➕ Adding a Recipe: Navigate to the "Add Recipe" screen, fill in the title, description, and ingredients, and save your recipe.
@@ -124,7 +121,7 @@ Build and run the app on your preferred simulator or iOS device.
 ---
 🚧 Next Challenges
 
-Implementing advanced search filters (e.g., filter by category, ingredient).
+Implementing search filters (e.g., filter by category, ingredient).
 
 
 
