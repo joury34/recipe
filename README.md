@@ -71,33 +71,7 @@ Combine: Ensures that UI updates are reactive and seamless, enhancing user exper
 
 
 ---
-🚀 Getting Started
 
-Prerequisites
-Xcode 12 or later
-iOS 14.0 or later
-
-
-Installation
-Clone the repository:
-
-git clone https://github.com/joury34/recipe
-
-Open in Xcode:
-
-Copy code
-
-cd recipe
-
-open recipe.xcodeproj
-
-
-Build and run the app on your preferred simulator or iOS device.
-
-
-
-
----
 📖 Usage
 
 
