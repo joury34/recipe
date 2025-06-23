@@ -111,10 +111,6 @@ Integrating cloud storage to sync recipes across devices.
 
 
 
----
-🤝 Contributing
-
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Feel free to open issues for any bugs or feature requests.
 
 ---
 📞 Contacts
